@@ -127,8 +127,9 @@ if st.button("Send"):
         extracted_code = extract_code(my_text)
         if extracted_code:
             print(extracted_code)
+            code_to_run  = extracted_code # the exact code that we want to run it automatically in another code. 
         else:
-            print("No code block found.")
+            print("\nNo code block found.")
 
         #####
 
