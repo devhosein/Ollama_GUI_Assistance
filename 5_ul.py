@@ -18,7 +18,7 @@ st.set_page_config(page_title="Gemma Chat", layout="wide")
 
 # بارگذاری مدل
 callback_manager = CallbackManager([])
-llm = Ollama(model="gemma2:9b", callbacks=callback_manager)
+llm = Ollama(model="gemma2:27b", callbacks=callback_manager)
 
 # ذخیره پیام‌ها
 if "messages" not in st.session_state:
