@@ -2,6 +2,7 @@ import streamlit as st
 from langchain_community.llms import Ollama
 from langchain.callbacks.manager import CallbackManager
 from langchain.callbacks.base import BaseCallbackHandler
+import os
 
 # کلاس مدیریت استریمینگ
 class StreamCallbackHandler(BaseCallbackHandler):
@@ -126,10 +127,45 @@ if st.button("Send"):
 
         extracted_code = extract_code(my_text)
         if extracted_code:
-            print(extracted_code)
-            code_to_run  = extracted_code # the exact code that we want to run it automatically in another code. 
+            # print(extracted_code)
+            code_to_write = extracted_code  # the exact code that we want to run it automatically in another code. 
+            def create_and_run_python_file(code):
+                if code.startswith("python"):
+                    code = code.split("\n", 1)[1]  # خط اول را حذف می‌کند
+
+                # نام فایل جدید
+                file_name = "generated_script.py"
+
+                # ایجاد و نوشتن کد در فایل جدید
+                with open(file_name, "w", encoding="utf-8") as file:
+                    file.write(code)
+
+                print(f"File '{file_name}' created successfully.")
+
+                # اجرای فایل جدید
+                os.system(f"python {file_name}")
+
+            create_and_run_python_file(code_to_write)
         else:
             print("\nNo code block found.")
+
+        # #####
+        # #####
+        # # run the code that it wants
+        # def create_and_run_python_file(code):
+        #     # نام فایل جدید
+        #     file_name = "generated_script.py"
+
+        #     # ایجاد و نوشتن کد در فایل جدید
+        #     with open(file_name, "w", encoding="utf-8") as file:
+        #         file.write(code)
+
+        #     print(f"File '{file_name}' created successfully.")
+
+        #     # اجرای فایل جدید
+        #     os.system(f"python {file_name}")
+
+
 
         #####
 
