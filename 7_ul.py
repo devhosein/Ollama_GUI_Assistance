@@ -68,9 +68,12 @@ st.markdown("""
 
 # تابع دریافت پاسخ
 def get_response(context, user_input, placeholder):
+    instructions = ("you are talking to hosein, hosein is your good friend, here is some point that you have be careful about them : 1. if user wants you to write or run a code , you have to add this before typing the code and this is it ( run this code! ) , 2. ...")
     
-
-    full_input = "\n".join([f"You: {msg['content']}" if msg['is_user'] else f"Gemma: {msg['content']}" for msg in context])
+    # ترکیب دستور ثابت با ورودی‌های گذشته و ورودی جدید
+    full_input = instructions + "\n" + "\n".join([
+        f"You: {msg['content']}" if msg['is_user'] else f"Gemma: {msg['content']}" for msg in context
+    ])
     full_input += f"\nYou: {user_input}\nGemma:"
     
     stream_handler = StreamCallbackHandler(placeholder)
@@ -150,26 +153,6 @@ if st.button("Send"):
             create_and_run_python_file(code_to_write)
         else:
             print("\nNo code block found.")
-
-        # #####
-        # #####
-        # # run the code that it wants
-        # def create_and_run_python_file(code):
-        #     # نام فایل جدید
-        #     file_name = "generated_script.py"
-
-        #     # ایجاد و نوشتن کد در فایل جدید
-        #     with open(file_name, "w", encoding="utf-8") as file:
-        #         file.write(code)
-
-        #     print(f"File '{file_name}' created successfully.")
-
-        #     # اجرای فایل جدید
-        #     os.system(f"python {file_name}")
-
-
-
-        #####
 
         # حذف مقدار ورودی از st.session_state
         st.session_state.pop("user_input", None)
