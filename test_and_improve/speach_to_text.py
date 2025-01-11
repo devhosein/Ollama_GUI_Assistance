@@ -73,11 +73,11 @@ FORMAT = pyaudio.paInt16
 CHANNELS = 1
 RATE = 16000
 CHUNK = 1024
-RECORD_SECONDS = 10
+RECORD_SECONDS = 20
 OUTPUT_FILE = "temp_audio.wav"
 
 # مدل Whisper را بارگذاری کنید
-model = whisper.load_model("medium")
+model = whisper.load_model("large") # medium
 
 def record_audio(filename):
     audio = pyaudio.PyAudio()
