@@ -19,7 +19,7 @@ st.set_page_config(page_title="Gemma Chat", layout="wide")
 
 # بارگذاری مدل
 callback_manager = CallbackManager([])
-llm = Ollama(model="gemma2:27b", callbacks=callback_manager)
+llm = Ollama(model="gemma2:9b", callbacks=callback_manager)
 
 # ذخیره پیام‌ها
 if "messages" not in st.session_state:
@@ -68,7 +68,7 @@ st.markdown("""
 
 # تابع دریافت پاسخ
 def get_response(context, user_input, placeholder):
-    instructions = ("you are talking to hosein, hosein is your good friend, here is some point that you have be careful about them : 1. if user wants you to write or run a code , you have to add this before typing the code and this is it ( run this code! ) , 2. ...")
+    instructions = ("you are talking to hosein, hosein is your good friend, here is some point that you have be careful about them : 1. if user wants you to write or run a code , you have to add this before typing the code and this is it ( run this code! ) , 2.If the user asks you to do his task for him, don't doubt yourself and write your Python code to do that task and don't forget to write the execution command before writing the code. 3. ...  and here is his message for you ::: ")
     
     # ترکیب دستور ثابت با ورودی‌های گذشته و ورودی جدید
     full_input = instructions + "\n" + "\n".join([
