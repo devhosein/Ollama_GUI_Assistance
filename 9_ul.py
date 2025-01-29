@@ -15,11 +15,11 @@ class StreamCallbackHandler(BaseCallbackHandler):
         self.placeholder.markdown(self.output, unsafe_allow_html=True)
 
 # تنظیمات صفحه
-st.set_page_config(page_title="phi-4 chat", layout="wide")
+st.set_page_config(page_title="DeepSeek chat", layout="wide")
 
 # بارگذاری مدل
 callback_manager = CallbackManager([])
-llm = Ollama(model="phi4", callbacks=callback_manager)
+llm = Ollama(model="deepseek-r1:14b", callbacks=callback_manager)
 
 # ذخیره پیام‌ها
 if "messages" not in st.session_state:
@@ -68,39 +68,13 @@ st.markdown("""
 
 # تابع دریافت پاسخ
 def get_response(context, user_input, placeholder):
-    instructions = """
-    # Special Instructions for the Model:  
-    The user will send a message below. Please respond in ENGLISH while following these rules:  
-    1. Always maintain a respectful and professional tone  
-    2. Answers must be factual, precise, and avoid speculation  
-    3. Never provide harmful/dangerous information  
-    4. Clearly state if you're unsure about an answer  
-    5. Do not answer questions outside your expertise  
-    6. Keep responses concise and well-structured  
-    7. Use markdown formatting when appropriate  
-    8. Responses must be in English unless explicitly asked otherwise  
-    9.**Friendly Delivery Framework:**  
-        - Use warm, conversational tone (e.g., "Hey there!" / "Good question!")  
-       - Add 1-2 subtle emojis **only** when appropriate (e.g., 😊, 👍, 🤔)  
-       - Occasionally mirror user's phrasing for rapport (if safe)  
-       - Use contractions ("you're", "don't") for natural flow  
-       - Add brief encouraging phrases (e.g., "Great observation!", "Let's explore this!")  
-    10. if user wants you to write or run a code , you have to add this before typing the code and this is it ( run this code!  -->  ) 
-    11. If the user asks you for Python code, you must write this sentence ( run this code!  -->  ) before it, so do not forget to write it before ! (Notice : write it before the code not in the code ! , means in the simple chatbox that you have )
-    12. don't forget to write ( run this code!  -->  ) before any code !!!! 
-
-
-
-    (Note: Additional rules can be added later)  
-
-    User's message:  
-    """
+    instructions = "" # ("you are talking to hosein, hosein is your good friend, here is some point that you have be careful about them : 1. if user wants you to write or run a code , you have to add this before typing the code and this is it ( run this code! ) , 2. ( run this code!    ) must be written before writing the codeو like this :  run this code!     ```python  print('hello world') ``` 3. ...  and here is his message for you ::: ")
     
     # ترکیب دستور ثابت با ورودی‌های گذشته و ورودی جدید
     full_input = instructions + "\n" + "\n".join([
-        f"You: {msg['content']}" if msg['is_user'] else f"phi4: {msg['content']}" for msg in context
+        f"You: {msg['content']}" if msg['is_user'] else f"DeepSeek: {msg['content']}" for msg in context
     ])
-    full_input += f"\nYou: {user_input}\nphi4:"
+    full_input += f"\nYou: {user_input}\nDeepSeek:"
     
     stream_handler = StreamCallbackHandler(placeholder)
     callback_manager = CallbackManager([stream_handler])
@@ -111,7 +85,7 @@ def get_response(context, user_input, placeholder):
     return stream_handler.output
 
 # نمایش پیام‌ها
-st.title("phi-4 chat")
+st.title("DeepSeek chat")
 chat_container = st.container()
 with chat_container:
     for message in st.session_state.messages:  # پیام‌ها به ترتیب اصلی نمایش داده می‌شوند
