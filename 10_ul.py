@@ -15,11 +15,11 @@ class StreamCallbackHandler(BaseCallbackHandler):
         self.placeholder.markdown(self.output, unsafe_allow_html=True)
 
 # تنظیمات صفحه
-st.set_page_config(page_title="DeepSeek chat", layout="wide")
+st.set_page_config(page_title="qwen chat", layout="wide")
 
 # بارگذاری مدل
 callback_manager = CallbackManager([])
-llm = Ollama(model="deepseek-r1:14b", callbacks=callback_manager)
+llm = Ollama(model="qwen:14b", callbacks=callback_manager)
 
 # ذخیره پیام‌ها
 if "messages" not in st.session_state:
@@ -98,7 +98,7 @@ def get_response(context, user_input, placeholder):
     
     # ترکیب دستور ثابت با ورودی‌های گذشته و ورودی جدید
     full_input = instructions + "\n" + "\n".join([
-        f"You: {msg['content']}" if msg['is_user'] else f"DeepSeek: {msg['content']}" for msg in context
+        f"You: {msg['content']}" if msg['is_user'] else f"qwen: {msg['content']}" for msg in context
     ])
     full_input += f"\nYou: {user_input}\nDeepSeek:"
     
@@ -111,7 +111,7 @@ def get_response(context, user_input, placeholder):
     return stream_handler.output
 
 # نمایش پیام‌ها
-st.title("DeepSeek chat")
+st.title("qwen chat")
 chat_container = st.container()
 with chat_container:
     for message in st.session_state.messages:  # پیام‌ها به ترتیب اصلی نمایش داده می‌شوند
